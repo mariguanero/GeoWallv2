@@ -1,6 +1,7 @@
 package juego;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -19,15 +20,17 @@ public class PantallaJuego extends Pantalla {
 	//contf es un contador de figuras-- nivel es el nivel cuyo maximo sera 15
 	private int contf=0, nivel=10;
 	
+	//Sonido del cambio
+	private Sound change;
+
+	
 	
 	public PantallaJuego(GeoWallStart game) {
 		super(game);
 		// TODO Auto-generated constructor stub
 		escenario = new Stage(new ScreenViewport());
-		
+		change = Gdx.audio.newSound(Gdx.files.internal("Sonido/change.mp3"));
 		fondo= new ActorFondo();
-		//fondo.setHeight(Gdx.graphics.getHeight());
-		//fondo.setSize(45, Gdx.graphics.getHeight());
 		sombra= new ActorSombra(0);
 		sombra.setColor(0,0,0,1);
 		
@@ -36,6 +39,7 @@ public class PantallaJuego extends Pantalla {
 		escenario.addActor(fondo);
 		escenario.addActor(sombra);
 		escenario.addActor(figura);
+		
 		
 		controloFigura();
 
@@ -99,7 +103,10 @@ public class PantallaJuego extends Pantalla {
 				if(contf>15){
 					contf=0;
 				}
-    			figura.cambiarfigura(contf);	
+				//cambio la figura
+    			figura.cambiarfigura(contf);
+    			//le pongo sonido 
+    			change.play();
 				return true;
 			}			
 		});	
