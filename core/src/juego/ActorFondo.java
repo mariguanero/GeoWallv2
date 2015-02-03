@@ -66,7 +66,8 @@ public class ActorFondo extends Actor implements Disposable{
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub		
+		// TODO Auto-generated method stub	
+		new Texture("Imagenes/muro.jpg").dispose();
 	}
 
 	

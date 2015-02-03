@@ -11,7 +11,7 @@ import com.badlogic.gdx.utils.Disposable;
 
 public class ActorSombra extends Actor implements Disposable{
 
-	private TextureRegion mifondo, sombra;//=new Sprite(new Texture("Imagenes/figuras.png"), 0, 0, 256, 256);
+	private TextureRegion sombra;//=new Sprite(new Texture("Imagenes/figuras.png"), 0, 0, 256, 256);
 	private float v_fondo=2;//0.5f;
 	private float valory=Gdx.graphics.getHeight();
 	private int valorsombra=0;
@@ -39,14 +39,7 @@ public class ActorSombra extends Actor implements Disposable{
 		//batch.setColor(1, 1, 1, col.a*parentAlpha);		
 		
 		
-	}
-	public TextureRegion getMifondo() {
-		return mifondo;
-	}
-
-	public void setMifondo(TextureRegion mifondo) {
-		this.mifondo = mifondo;
-	}
+	}	
 
 	public float getV_fondo() {
 		return v_fondo;
@@ -67,13 +60,14 @@ public class ActorSombra extends Actor implements Disposable{
 	}
 	public void cambiarsombra(int valor){
 		//this.figura.scroll(256, 0);
-		valorsombra=valor;
+		this.valorsombra=valor;
 		this.sombra.setRegion(valor*256, 0, 256, 256);
 	}
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub		
+		// TODO Auto-generated method stub	
+		new Texture("Imagenes/figuras1.png").dispose();
 	}
 
 	public TextureRegion getSombra() {

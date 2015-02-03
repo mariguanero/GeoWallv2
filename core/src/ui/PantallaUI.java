@@ -1,5 +1,9 @@
 package ui;
 
+import internet.Conexion;
+import internet.PantallaRanking;
+import juego.PantallaJuego;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -41,9 +45,9 @@ public class PantallaUI extends Pantalla {
 	@Override
 	public void show() {
 		Skin skin = new Skin(Gdx.files.internal("Textos/uiskin.json"));
-		btnNewGame = new TextButton("Juguemos!!", skin);
-		btnLoadGame = new TextButton("Ranking", skin);
-		btnSettings = new TextButton("Settings", skin);
+		btnNewGame = new TextButton("START!!", skin);
+		btnLoadGame = new TextButton("Option", skin);
+		btnSettings = new TextButton("Ranking", skin);
 		btnQuit = new TextButton("Quit", skin);
 		
 		// He incluido el ejemplo de los botones animados porque consideré
@@ -177,16 +181,12 @@ public class PantallaUI extends Pantalla {
 								//Controlo que pantalla se lanza
 								switch(valormenu){
 									case 0:
-										//game.setScreen(game.scene2d);
+										game.setScreen(new PantallaJuego(game));										
 									break;
 									case 1:
-										//game.setScreen(game.configuracion);
+										game.setScreen(new PantallaRanking(game));
 									break;
-									case 2:
-										/*game.dispose();
-										game.ui.dispose();
-										game.batch.dispose();
-										game.scene2d.dispose();*/
+									case 2:										
 										Gdx.app.exit();
 									break;
 									

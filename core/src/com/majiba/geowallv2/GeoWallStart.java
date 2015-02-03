@@ -7,6 +7,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -17,20 +18,22 @@ public class GeoWallStart extends Game {
 	SpriteBatch batch;
 	Texture figuras;
 	TextureRegion miFigura;
+	public Music musica;
 	public Pantalla ui =new PantallaUI(this);
+	
 	
 	
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		//figuras = new Texture("Imagenes/figuras.png");
-		//miFigura = new Sprite(figuras, 0, 256, 256, 256);
-		//miFigura.setPosition(0, 0);
-		
-		//setScreen(ui);
+	
+		setScreen(ui);
+		musica = Gdx.audio.newMusic(Gdx.files.internal("Sonido/LOOP NOLO.mp3"));
+		//musica.play();
+		//musica.setLooping(true);
 		
 		/*Para pruebas*/
-		setScreen(new PantallaJuego(this));
+		//setScreen(new PantallaJuego(this));
 	}
 
 	@Override
