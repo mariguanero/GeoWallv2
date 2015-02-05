@@ -1,9 +1,9 @@
 package internet;
 
+
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.delay;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.run;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Net.HttpMethods;
 import com.badlogic.gdx.Net.HttpRequest;
@@ -18,48 +18,25 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+
 import com.majiba.geowallv2.GeoWallStart;
 import com.majiba.geowallv2.Pantalla;
 
-public class PantallaRanking extends Pantalla{
-
-	
+public class PantallaRanking extends Pantalla {
 
 	private Stage escenariopuntuacion;
 	Button btnVolv,btnGuardar;
-	//BitmapFont font;
-	//SpriteBatch batch;
-	//String url, mensaje="Registrando Puntaje.. espere";
-	//String httpMethod = Net.HttpMethods.GET;
-	//String solicitud_variables = null;
-	//HttpRequest httpsolicitud;
+	
 	String status;
-	//String[] nicks;
-	//String[] puntuaciones;
-	Array<String> nicks= new Array(), puntu= new Array();
-	public Conexion con = new Conexion();
+	
+	Array<String> nicks= new Array<String>(), puntu= new Array<String>();
 	
 	public PantallaRanking(GeoWallStart game) {
 		super(game);
-		// TODO Auto-generated constructor stub
-	
-		//guardarRegistros();
-		//leerRegistros();
-		this.escenariopuntuacion= new Stage(new ScreenViewport());;
-		
-		this.status= con.leerRegistros();
-		nicks=con.getNicks();
-		//System.out.println(con.getStatus());
-		/*
-		this.nicks=con.getNicks();
-		for(int i=0; i<nicks.size;i++){
-			System.out.println(nicks.get(i));
-		}
-		this.puntu= con.getPuntu();*/
+		leerRegistros();
 	}
 	
 
@@ -84,7 +61,7 @@ public class PantallaRanking extends Pantalla{
 		// TODO Auto-generated method stub
 		super.show();
 		Skin skin = new Skin(Gdx.files.internal("Textos/uiskin.json"));
-		
+		//leerRegistros();
 		
 		btnVolv = new TextButton("Volver", skin);
 		btnVolv.setPosition(0, 0);
@@ -132,7 +109,7 @@ public class PantallaRanking extends Pantalla{
 			
 
 			//Para Controlar el Boton de Volver
-			//escenariopuntuacion = new Stage(new ScreenViewport());
+			escenariopuntuacion = new Stage(new ScreenViewport());
 			tblLayout.setFillParent(true);
 			escenariopuntuacion.addActor(tblLayout);
 			escenariopuntuacion.addActor(btnVolv);
@@ -161,26 +138,22 @@ public class PantallaRanking extends Pantalla{
 		
 			//teamview(compartir escritorio)
 			HttpRequest httpPost = new HttpRequest(HttpMethods.POST);
-			httpPost.setUrl("http://89.131.83.130/config1.php");
+			httpPost.setUrl("http://majiba.com/geowall/leerdatos.php");
 			httpPost.setHeader("Content-Type", "application/json");
-			String output = "";
-		
 			Gdx.net.sendHttpRequest (httpPost, new HttpResponseListener() {
 			
 			@Override
 			public void handleHttpResponse(HttpResponse httpResponse) {
+				
 				// TODO Auto-generated method stub
 				Json jso= new Json();
 				status = httpResponse.getResultAsString();
-				
-				Array highScores = jso.fromJson(Array.class, status);
+				System.out.println(status);
+				Array<?> highScores = jso.fromJson(Array.class, status);
 				
 				for(int i=0; i< highScores.size;i++){
-					//System.out.println(highScores.get(i));
-					//Json Ayudajson = new Json();
 					String ayudastring = ""+highScores.get(i);
-					int juas = ayudastring.indexOf("puntuacionmax")-2 ;
-					//System.out.println(juas);
+					int juas = ayudastring.indexOf("puntuacionmax")-1 ;
 					String nick1 = ayudastring.substring(8, juas);
 					String mxpuntuacion= ayudastring.substring(juas+17, ayudastring.length()-2);
 					
@@ -190,6 +163,13 @@ public class PantallaRanking extends Pantalla{
 									
 				}
 				
+				Gdx.app.postRunnable(new Runnable() {
+					@Override
+					public void run () {
+						System.out.println(nicks.size);
+						
+					}
+				});
 			}
 
 			@Override
@@ -204,7 +184,8 @@ public class PantallaRanking extends Pantalla{
 		});
 	}
 	
-
+	//guardarRegistros
+	
 	
 	//Para los botones de cambiar
 public ChangeListener QueHacemos(final boolean valor){
@@ -244,6 +225,3 @@ public ChangeListener QueHacemos(final boolean valor){
 
 }
 	
-	
-
-
