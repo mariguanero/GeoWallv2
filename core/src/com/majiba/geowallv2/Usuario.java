@@ -20,8 +20,10 @@ public class Usuario implements java.io.Serializable{
     		Alasaca guardar = new Alasaca();
     		System.out.println("EL archivo existe");
     		nick = guardar.leer().nick;
-    		id= guardar.leer().id;    	    		
+    		id= guardar.leer().id;
+    		//id=25;
     		sonido=	guardar.leer().sonido;
+    		//Para pruebas
     		puntuacion = guardar.leer().puntuacion;
     		
     		//Debo acer la comprobacion para los intentos

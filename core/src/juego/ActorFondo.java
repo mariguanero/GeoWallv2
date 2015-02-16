@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Disposable;
@@ -16,10 +17,11 @@ public class ActorFondo extends Actor implements Disposable{
 	
 	
 	public ActorFondo(){
-		mifondo=new TextureRegion(new Texture("Imagenes/muro.jpg"));			
-		int tamanow=new Texture("Imagenes/muro.jpg").getWidth();		
-		int tamanoh=new Texture("Imagenes/muro.jpg").getHeight();
-		setSize(tamanow,tamanoh );
+		mifondo=new Sprite(new Texture("Imagenes/figuras.png"),0,128,512,512);
+		
+		//int tamanow=new Texture("Imagenes/muro.jpg").getWidth();		
+		//int tamanoh=new Texture("Imagenes/muro.jpg").getHeight();
+		setSize(512,512 );
 		
 		//obtenersombra(this.valorfigura);
 	}
@@ -66,7 +68,7 @@ public class ActorFondo extends Actor implements Disposable{
 	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub	
-		new Texture("Imagenes/muro.jpg").dispose();
+		new Texture("Imagenes/figuras.png").dispose();
 	}
 
 	

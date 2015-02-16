@@ -162,7 +162,7 @@ public class PantallaUI extends Pantalla {
 				
 				btnSettings.addAction(
 					sequence(
-						delay(2 * espera),
+						delay(3 * espera),
 						parallel(
 							moveBy(0, desplY, duracion), 
 							fadeOut(duracion)
@@ -181,10 +181,11 @@ public class PantallaUI extends Pantalla {
 								//Controlo que pantalla se lanza
 								switch(valormenu){
 									case 0:
+										Gdx.gl.glClearColor(0.7f, 1, 1, 0.5f);
+										Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 										game.setScreen(new PantallaJuego(game));										
 									break;
-									case 1:
-																				
+									case 1:																				
 										game.setScreen(pantallaR);
 									break;
 									case 2:										

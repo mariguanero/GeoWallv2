@@ -11,7 +11,7 @@ import com.badlogic.gdx.utils.Disposable;
 
 public class ActorFigura extends Actor implements Disposable{
 
-	private TextureRegion figura;//=new Sprite(new Texture("Imagenes/figuras.png"), 0, 0, 256, 256);
+	private TextureRegion figura;
 	
 	
 	private int valorfigura=0;
@@ -22,9 +22,9 @@ public class ActorFigura extends Actor implements Disposable{
 	}
 	
 	public TextureRegion obtenersombra(int valorfigura){
-		int tamanofiguras= 256;		
-		int valorx=valorfigura*256;
-		figura = new Sprite(new Texture("Imagenes/figuras1.png"), valorx, 0, tamanofiguras, tamanofiguras);		
+		int tamanofiguras= 128;		
+		int valorx=valorfigura*128;
+		figura = new Sprite(new Texture("Imagenes/figuras.png"), valorx, 0, tamanofiguras, tamanofiguras);		
 		return figura;		
 	}
 	
@@ -45,12 +45,12 @@ public class ActorFigura extends Actor implements Disposable{
 	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
-		new Texture("Imagenes/figuras1.png").dispose();
+		new Texture("Imagenes/figuras.png").dispose();
 	}
 
 	public void cambiarfigura(int valor){
 		//this.figura.scroll(256, 0);		
-		this.figura.setRegion(valor*256, 0, 256, 256);
+		this.figura.setRegion(valor*128, 0, 128, 128);
 		this.valorfigura=valor;
 	}
 	public TextureRegion getFigura() {

@@ -1,9 +1,8 @@
 package juego;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.delay;
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeOut;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveBy;
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.parallel;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.run;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
@@ -12,6 +11,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
@@ -20,6 +20,7 @@ import com.majiba.geowallv2.GeoWallStart;
 import com.majiba.geowallv2.Pantalla;
 import com.majiba.geowallv2.Usuario;
 import internet.Conexion;
+import internet.PantallaRanking;
 
 public class PantallaJuego extends Pantalla {
 
@@ -28,13 +29,15 @@ public class PantallaJuego extends Pantalla {
 	private ActorSombra sombra;
 	private ActorFigura figura;
 	//contf es un contador de figuras-- nivel es el nivel cuyo maximo sera 15
-	private int contf=0, nivel=0, puntos=13, contn=0;
+	private int contf=0, nivel=0, puntos=13, contn=0 ;
+	private float velocidad=2;
 	
 	//Sonido del cambio
 	private Sound change, finmuro, error;
 	
 	//TextField puntoss
-	private TextField puntoss;
+	private Label puntoss;
+	private Label gameover;
 	Skin skin = new Skin(Gdx.files.internal("Textos/uiskin.json"));
 	
 	
@@ -57,11 +60,11 @@ public class PantallaJuego extends Pantalla {
 		
 		//Para la puntuacion
 		
-		puntoss= new TextField(""+puntos, skin);
+		puntoss= new Label(""+puntos, skin);
 
-		puntoss.setWidth(Gdx.graphics.getWidth()/8);
+		//puntoss.setWidth(Gdx.graphics.getWidth()/8);
 		puntoss.setAlignment(Align.right);
-		puntoss.setColor(0, 0, 0, 0.15f);
+		puntoss.setColor(0, 0, 0, 0.35f);
 		puntoss.setPosition(Gdx.graphics.getWidth()-puntoss.getWidth(), Gdx.graphics.getHeight()-puntoss.getHeight());
 		escenario.addActor(puntoss);
 		//Fin puntuacion
@@ -91,7 +94,7 @@ public class PantallaJuego extends Pantalla {
 	
 	public void renderizarJuego(){
 		
-		Gdx.gl.glClearColor(0.7f, 1, 1, 0.5f);
+		//Gdx.gl.glClearColor(0.7f, 1, 1, 0.5f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		Gdx.input.setInputProcessor(escenario);
@@ -106,6 +109,7 @@ public class PantallaJuego extends Pantalla {
 			contn++;
 			if(sombra.getValorsombra()==figura.getValorfigura()){
 				acerto();
+				//fallo();
 			}else{
 				fallo();
 			}
@@ -135,10 +139,9 @@ public class PantallaJuego extends Pantalla {
 	}
 	
 	public void fallo(){
-		fondo.setValory(Gdx.graphics.getHeight());
-		escenario.getActors().removeValue(sombra, true);
-		escenario.getActors().removeValue(fondo, true);
-		escenario.getActors().removeValue(figura, true);
+		error.play();
+		escenario.getActors().clear();
+		fondo.setValory(Gdx.graphics.getHeight());		
 		sombra.dispose();
 		figura.dispose();
 		fondo.dispose();
@@ -150,7 +153,36 @@ public class PantallaJuego extends Pantalla {
 		}
 		Conexion con = new Conexion();
 		con.guardarRegistros();
+		
+		Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 0.5f);		
+		//Para controlar el error y la redireccion
+		gameover= new Label("Game Over", skin);
+		//gameover.
+		gameover.setFontScale(2);		
+		gameover.setPosition(Gdx.graphics.getWidth()/2-gameover.getWidth(), Gdx.graphics.getHeight()/2);
+		gameover.setColor(0, 0, 1, 1);
+		puntoss.setFontScale(2);
+		puntoss.setPosition(Gdx.graphics.getWidth()/2-puntoss.getWidth(), 3*Gdx.graphics.getHeight()/4);
+		escenario.addActor(gameover);
+		escenario.addActor(puntoss);
+		//escenario.getActors().get(0).se;
+		final PantallaRanking pantRank = new PantallaRanking(game);
+		gameover.addAction(
+			sequence(
+				delay(5),
+				run (new Runnable(){
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						game.setScreen(pantRank);
+					}					
+				})				
+			)
+		);
+		
+		
 	}
+	
 	public void acerto(){
 		finmuro.play();
 		this.puntos+= nivel*13;
@@ -169,19 +201,15 @@ public class PantallaJuego extends Pantalla {
 	}
 
 	public void subenivel(){
-				
+		velocidad++;		
 		TextField textsub= new TextField("level UP!!", skin);
 		textsub.setColor(0, 0, 0, 0);
 		escenario.getActors().removeValue(textsub, true);
-		textsub.addAction(
-			sequence(
-				delay(0 * 0.5f), 
-				parallel(
-					moveBy(0, Gdx.graphics.getHeight(), 2),										
-					fadeOut(0)					
-				)																
-			)			
-		);		
+		textsub.addAction(		
+					moveBy(0, Gdx.graphics.getHeight(), 2)											
+		);
+		fondo.setV_fondo(velocidad);
+		sombra.setV_fondo(velocidad);
 		escenario.addActor(textsub);		
 		textsub.setPosition(Gdx.graphics.getWidth()/2-textsub.getWidth()/2 , Gdx.graphics.getHeight()/2-textsub.getHeight()/2);					
 	}

@@ -22,9 +22,9 @@ public class ActorSombra extends Actor implements Disposable{
 	}
 	
 	public TextureRegion obtenersombra(int valorfigura){
-		int tamanofiguras= 256;
-		int valorx=valorfigura*256;
-		sombra = new Sprite(new Texture("Imagenes/figuras1.png"), valorx, 0, tamanofiguras, tamanofiguras);		
+		int tamanofiguras= 128;
+		int valorx=valorfigura*128;
+		sombra = new Sprite(new Texture("Imagenes/figuras.png"), valorx, 0, tamanofiguras, tamanofiguras);		
 		return sombra;		
 	}
 	
@@ -61,13 +61,13 @@ public class ActorSombra extends Actor implements Disposable{
 	public void cambiarsombra(int valor){
 		//this.figura.scroll(256, 0);
 		this.valorsombra=valor;
-		this.sombra.setRegion(valor*256, 0, 256, 256);
+		this.sombra.setRegion(valor*128, 0, 128, 128);
 	}
 
 	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub	
-		new Texture("Imagenes/figuras1.png").dispose();
+		new Texture("Imagenes/figuras.png").dispose();
 	}
 
 	public TextureRegion getSombra() {
